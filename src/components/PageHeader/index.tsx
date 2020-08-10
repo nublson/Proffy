@@ -7,12 +7,13 @@ import backIcon from '../../assets/images/icons/back.svg';
 import './styles.css';
 
 //* Definindo as propriedades do componente PageHeader
-interface PageHeaderProps {
+interface IPageHeaderProps {
 	title: string;
+	description?: string;
 }
 
 //? Indicamos que o nosso componente (PageHeader) é um Funcional Component (React.FC) e que recebe como propriedades (<...>) a interface definida acima.
-const PageHeader: React.FC<PageHeaderProps> = props => {
+const PageHeader: React.FC<IPageHeaderProps> = props => {
 	return (
 		<header className='page-header'>
 			<div className='top-bar-container'>
@@ -24,6 +25,7 @@ const PageHeader: React.FC<PageHeaderProps> = props => {
 
 			<div className='header-content'>
 				<strong>{props.title}</strong>
+				{props.description && <p> {props.description} </p>}
 
 				{props.children}
 			</div>
