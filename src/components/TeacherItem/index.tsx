@@ -1,41 +1,57 @@
 import React from 'react';
 
+import api from '../../services/api';
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 
 import './styles.css';
 
-const TeacherItem = () => {
+export interface Teacher {
+	id: number;
+	user_id: number;
+	name: string;
+	avatar: string;
+	bio: string;
+	subject: string;
+	cost: number;
+	whatsapp: string;
+}
+
+interface ITeacherItemProps {
+	teacher: Teacher;
+}
+
+const TeacherItem: React.FC<ITeacherItemProps> = ({ teacher }) => {
+	const createConnection = () => {
+		api.post('/connections', { user_id: teacher.user_id });
+	};
+
 	return (
 		<article className='teacher-item'>
 			<header>
-				<img
-					src='https://avatars2.githubusercontent.com/u/46088089?s=460&u=0e82c947b2f5226c68d7c4c6710191513b9962b1&v=4'
-					alt='Nubelson Fernandes'
-				/>
+				<img src={teacher.avatar} alt={teacher.name} />
 				<div>
-					<strong>Nubelson Fernandes</strong>
-					<span>Química</span>
+					<strong>{teacher.name}</strong>
+					<span>{teacher.subject}</span>
 				</div>
 			</header>
 
-			<p>
-				Entusiasta das melhores tecnologias de química avançada.
-				<br /> <br />
-				Apaixonado por explodir coisas em laboratório e por mudar a vida
-				das pessoas através de experiências. Mais de 200.000 pessoas já
-				passaram por uma das minhas explosões.
-			</p>
+			<p>{teacher.bio}</p>
 
 			<footer>
 				<p>
 					Preço/hora:
-					<strong>$ 30,00</strong>
+					<strong>$ {teacher.cost}</strong>
 				</p>
 
-				<button type='button'>
+				<a
+					href={`https://wa.me/${teacher.whatsapp}`}
+					target='_blank'
+					rel='noopener noreferrer'
+					onClick={createConnection}
+				>
 					<img src={whatsappIcon} alt='Whatsapp' />
 					Entrar em contacto
-				</button>
+				</a>
 			</footer>
 		</article>
 	);
